@@ -1,0 +1,5 @@
+{
+  "ARGE-123": {"status": "Approved", "summary": "Release governance engine MVP"},
+  "PLAT-91": {"status": "In Review", "summary": "Authentication hardening"},
+  "OPS-7": {"status": "Approved", "summary": "Deployment automation follow-up"}
+}

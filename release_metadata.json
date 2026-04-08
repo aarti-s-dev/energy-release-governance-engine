@@ -1,0 +1,28 @@
+{
+  "current_release_version": "v1.0.0",
+  "last_updated": "",
+  "history": [],
+  "signoffs": {
+    "QA": "Pending",
+    "Engineering": "Pending",
+    "Product": "Pending"
+  },
+  "fleet_rollout": {
+    "name": "Fleet Rollout Simulation",
+    "build_minutes": 0,
+    "eta_minutes": 0,
+    "status": "Not Started",
+    "waves": []
+  },
+  "latest_report": {
+    "ticket": "",
+    "jira_status": "Unknown",
+    "risk_level": "Unknown",
+    "changed_files": [],
+    "lines_changed": 0,
+    "pr_number": "",
+    "sensitive_files_touched": [],
+    "data_source": "Mock Simulation"
+  },
+  "data_source": "Mock Simulation"
+}
