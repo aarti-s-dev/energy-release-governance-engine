@@ -1,59 +1,57 @@
-# Automated Release Governance Engine (ARGE) — V3
+# Automated Release Governance Engine (ARGE)
 
-ARGE is a hybrid CI/CD governance system that behaves like a lightweight **Technical Program Manager in software**. It inserts release-readiness gates into the pull request path, scores deployment risk, simulates staged rollout timing, and publishes a stakeholder-friendly status view.
+ARGE is a modular, CI/CD-integrated framework designed to orchestrate high-stakes software deployments. It automates **technical and operational compliance guardrails** by enforcing release-readiness gates, calculating deployment risk through algorithmic scoring, and simulating staged rollout strategies for complex fleet environments.
 
-V3 adds a **Hybrid Integration Phase**: the app automatically uses live JIRA and GitHub APIs when credentials are available, and silently falls back to mock mode when they are not. That makes the project both **portfolio-ready** and **recruiter-friendly on first run**.
+Built with a **Hybrid Integration Architecture**, ARGE dynamically pivots between live REST APIs (JIRA/GitHub) and isolated mock environments, ensuring a seamless "zero-configuration" experience for stakeholders and reviewers.
 
-## Why this matters for TPM
+## Strategic Value
 
-Technical Program Managers operate at the boundary between engineering execution, risk visibility, and release accountability. ARGE demonstrates that mindset in code:
+This engine demonstrates a production-first approach to the Software Development Life Cycle (SDLC), applicable to Engineering, Product, and Operational leadership:
 
-- It enforces **release discipline in CI** instead of relying on manual follow-up.
-- It translates engineering activity into **stakeholder-readable release risk**.
-- It creates a visible record of **cross-functional sign-off health**.
-- It models deployment sequencing through a **canary rollout simulation**.
-- It shows how a TPM-style system can be designed to be both **operationally real** and **demo-safe**.
+* **Automated Governance:** Replaces manual checklists with code-enforced gates in the CI pipeline to ensure **strict adherence to release criteria**.
+* **Data-Driven Risk Assessment:** Translates technical diffs into objective, actionable risk metrics for non-technical stakeholders.
+* **Cross-Functional Alignment:** Synchronizes project management states (JIRA) with version control reality (GitHub) to eliminate manual status tracking.
+* **Staged Reliability:** Models risk-mitigation through **1% → 10% → 100%** canary rollout simulations to protect fleet stability.
+* **Architectural Flexibility:** Implements Factory and Strategy design patterns to handle diverse integration environments and enterprise scale.
 
-## Core capabilities
 
-- **JIRA Gate**: Extracts a linked ticket from PR metadata and verifies it is in `Approved` status.
-- **Risk Scorer**: Flags risky changes when PR diffs are large or sensitive files are touched.
-- **Hybrid Client Factory**: Chooses between live API clients and mock clients based on environment variables.
-- **Fleet Rollout Simulation**: Estimates deployment timing across **1% → 10% → 100%** canary waves.
-- **Release Readiness Report**: Produces markdown ready to post back to a PR.
-- **Stakeholder Hub**: Streamlit dashboard with release version, sign-offs, rollout timing, and current data source.
-- **Release Metadata Store**: JSON-backed demo persistence for local runs and portfolio screenshots.
+## Core Capabilities
+
+* **JIRA Integration Gate:** Validates cross-functional approval states via Atlassian REST APIs, ensuring code only moves forward when officially sanctioned by stakeholders.
+* **Heuristic Risk Scorer:** Analyzes PR metadata and diffs to flag high-impact changes based on change volume (e.g., >50 lines) and file sensitivity (e.g., core infrastructure logic vs. documentation).
+* **Hybrid Client Factory:** Intelligently toggles between live REST API clients and isolated mock environments based on the environmental context to ensure a seamless, zero-setup demo experience.
+* **Fleet Rollout Simulator:** Generates deterministic deployment timelines for staged releases, modeling risk mitigation through **1% → 10% → 100%** canary waves.
+* **Automated Reporting:** Synthesizes complex pipeline results into professional Markdown summaries designed for automated injection into Pull Request discussions.
+* **Stakeholder Dashboard:** A Streamlit-based UI providing real-time visibility into release health, sign-off status, and data provenance via a JSON-backed metadata store.
 
 ## System architecture
 
 ```mermaid
 flowchart LR
-    A[Developer opens or updates PR] --> B[GitHub Actions Workflow]
-    B --> C[Unit Tests]
-    C --> D[JIRA Gate]
-    D --> E[Risk Scorer]
-    E --> F[Fleet Rollout Simulation]
-    F --> G[Release Readiness Reporter]
-    G --> H[PR Comment]
-    F --> I[ReleaseMetadataStore]
-    I --> J[release_metadata.json]
-    J --> K[Streamlit Stakeholder Hub]
+    A[PR Update/Creation] --> B[CI/CD Workflow]
+    B --> C[Validation Suite]
+    C --> D[Governance Gates]
+    D --> E[Risk Analysis]
+    E --> F[Rollout Simulation]
+    F --> G[Readiness Reporter]
+    G --> H[Stakeholder Notification]
+    F --> I[Persistence Layer]
+    I --> J[Metadata Store]
+    J --> K[Visibility Dashboard]
 
-    subgraph Hybrid Integrations
+    subgraph Integration Layer
       L[JiraClientFactory]
       M[GitDiffProviderFactory]
-      N[RealJiraClient]
-      O[MockJiraClient]
-      P[RealGitHubClient]
-      Q[MockGitDiffProvider]
+      N[Live API Clients]
+      O[Mock Environment]
     end
 
-    D --> L
-    E --> M
+    D -.-> L
+    E -.-> M
     L --> N
     L --> O
-    M --> P
-    M --> Q
+    M --> N
+    M --> O
 ```
 
 ## Repository structure
@@ -79,19 +77,10 @@ arge/
 └── tests/
 ```
 
-## Integration behavior
+## Credential Security & Environment Configuration
 
-ARGE uses a zero-key default experience:
+System integrity is maintained by strict adherence to environment-based configuration. Sensitive credentials (API Tokens, Domain Endpoints) are never persisted in source control. ARGE utilizes a `python-dotenv` implementation for local development and leverages encrypted environment variables for secure CI/CD execution. In public-facing environments, the system defaults to **"Simulation Mode"** to prevent unauthorized data exposure while maintaining full functional visibility for reviewers.
 
-- When `JIRA_DOMAIN`, `JIRA_USER_EMAIL`, and `JIRA_API_TOKEN` are present, the JIRA gate uses the **live Atlassian REST API**.
-- When `GH_TOKEN`, `GITHUB_REPOSITORY`, and `PR_NUMBER` are present, the risk pipeline uses the **live GitHub REST API** for PR file changes.
-- When any required variables are missing, ARGE logs:
-
-```text
-Environment variables missing: Running in Mock Mode for demonstration.
-```
-
-That means recruiters, hiring managers, and forked-repo visitors can run the project without setup friction.
 
 ## Getting started
 
@@ -164,7 +153,7 @@ export ARGE_DATA_SOURCE="Mock Simulation"
 python -m arge.cli.update_release_metadata
 ```
 
-## Secrets and configuration
+## Credential Security & Environment Configuration
 
 See `.env.example` for the expected values:
 
@@ -188,10 +177,9 @@ Example:
 2026-04-08 09:15:32 | INFO     | arge.github.diff.factory | GitHub credentials detected: using live GitHub REST API client.
 ```
 
-## Next production-hardening ideas
+## Future Roadmap
 
-- Replace JSON metadata persistence with PostgreSQL or S3.
-- Add retry/backoff wrappers around external API calls.
-- Capture real sign-offs from QA, Product, and Engineering systems.
-- Add CODEOWNERS and test coverage signals into the risk model.
-- Persist PR comments idempotently instead of posting a fresh one each run.
+* **Data Persistence:** Transition from local JSON stores to a managed relational database (PostgreSQL) for fleet-scale tracking.
+* **Performance Optimization:** Implement asynchronous request handling to minimize latency in multi-gate governance pipelines.
+* **Enhanced Risk Modeling:** Incorporate automated code-coverage metrics and static analysis (SAST) signals into the risk scoring algorithm.
+* **Enterprise Scalability:** Develop multi-tenant support for managing concurrent, global release cycles across distinct product lines.
