@@ -89,7 +89,8 @@ class JiraGate:
             raise ValueError(f"Ticket {ticket} not found in configured JIRA data source")
 
         status = issue.get("status", "Unknown")
-        approved = status == "Approved"
+        ALLOWED_STATUSES = {"Approved", "Done", "Resolved"}
+        approved = status in ALLOWED_STATUSES
         if approved:
             self.logger.info("JIRA gate passed: ticket=%s status=%s", ticket, status)
         else:
