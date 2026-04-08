@@ -14,6 +14,15 @@ This engine demonstrates a production-first approach to the Software Development
 * **Staged Reliability:** Models risk-mitigation through **1% → 10% → 100%** canary rollout simulations to protect fleet stability.
 * **Architectural Flexibility:** Implements Factory and Strategy design patterns to handle diverse integration environments and enterprise scale.
 
+## Tech Stack
+
+* **Language:** Python 3.10+ (Advanced Object-Oriented Design)
+* **API Orchestration:** Requests (HTTP/REST Integration for JIRA & GitHub)
+* **Automation & CI/CD:** GitHub Actions (Automated Governance Pipelines)
+* **Data Layer:** JSON Persistence (File-based Metadata Store)
+* **Frontend:** Streamlit (Real-time Stakeholder Visibility Dashboard)
+* **Testing & Quality:** Pytest (Unit Testing & Validation)
+* **Environment:** Python-Dotenv (Secure Configuration Management)
 
 ## Core Capabilities
 
