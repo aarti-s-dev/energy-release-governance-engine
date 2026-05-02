@@ -14,6 +14,18 @@ This engine demonstrates a production-first approach to the Software Development
 * **Staged Reliability:** Models risk-mitigation through **1% → 10% → 100%** canary rollout simulations to protect fleet stability.
 * **Architectural Flexibility:** Implements Factory and Strategy design patterns to handle diverse integration environments and enterprise scale.
 
+## 📂 Deliverables & Project Assets
+
+To provide full transparency into the engineering lifecycle and governance standards of ARGE, the following assets are included in this repository:
+
+| Asset | Description | Access |
+| :--- | :--- | :--- |
+| **Project Case Study** | A deep-dive into the business logic, architectural decisions (Factory/Strategy patterns), and "The Why" behind the engine. | [View Case Study](./docs/Case_Study.md) |
+| **Governance Matrix** | A logic map detailing the "Pass/Fail" criteria for JIRA ticket states and risk-scoring heuristics used by the `RiskScorer`. | [View Matrix](./Project_Governance_Matrix.md) |
+| **CI/CD Workflow** | The live GitHub Actions configuration that automates governance checks on every Pull Request. | [.github/workflows/](./.github/workflows/release_governance.yml) |
+| **Stakeholder Hub** | A Streamlit-based UI providing real-time visibility into release health, sign-off status, and data provenance. | `streamlit run app.py` |
+| **Environment Template** | A `.env.example` file to help developers securely configure their own local or production environments. | [.env.example](./.env.example) |
+
 ## Tech Stack
 
 * **Language:** Python 3.10+ (Advanced Object-Oriented Design)
